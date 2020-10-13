@@ -59,11 +59,22 @@ def imprime_hoja(H):
 	return cadena + "}"
 
 def par_complementario(l):
-	# Esta función determina si una lista de solo literales
-	# contiene un par complementario
-	# Input: l, una lista de literales
-	# Output: True/False
-	return False
+    lista = []
+    for item in l:
+        if item.label=='-':
+            lista.append('-'+item.right.label)
+        else:
+            lista.append(item.label)
+    for elem in lista:
+        if elem[0]=='-':
+            complementario=elem[1]
+            if complementario in lista:
+                return True
+            else:
+                complementario = '-'+elem[0]
+                if complementario in lista:
+                    return True
+    return False
 
 def es_literal(f):
 	# Esta función determina si el árbol f es un literal
