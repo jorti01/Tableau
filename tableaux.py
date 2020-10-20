@@ -128,50 +128,64 @@ def clasifica_y_extiende(f,h):
 	# Input: f, una fórmula como árbol
 	# Output: no tiene output, pues modifica la variable global listaHojas
 	global listaHojas
-	clasificacion=clasifica(f)
-	if clasificacion=='None':
-		listaHojas.remove([f])
-		listaHojas.append(f)
-	elif clasificacion=='1alfa':
-	 	hijo=[(f.right).right]
-	 	listaHojas.remove([f])
-	 	listaHojas.append(hijo)
-	elif clasificacion=='2alfa':
-		hijo_izq=f.left
-		hijo_der=f.right
-		listaHojas.remove([f])
-		newlist=[hijo_izq,hijo_der]
-		listaHojas.append(newlist)
-	elif clasificacion=='3alfa':
-		hijo_izq=Tree('-',None,(f.right).left)
-		hijo_der=Tree('-',None,(f.right).right)
-		listaHojas.remove([f])
-		Nlist=[hijo_izq,hijo_der]
-		listaHojas.append(Nlist)
-	elif clasificacion=='4alfa':
-		hijo_izq=(f.right).left
-		hijo_der=Tree('-',None,(f.right).right)
-		listaHojas.remove([f])
-		OList=[hijo_izq,hijo_der]
-		listaHojas.append(OList)
-	elif clasificacion=='1beta':
-		hijo_izq=[Tree('-',None,(f.right).left)]
-		hijo_der=[Tree('-',None,(f.right).right)]
-		listaHojas.remove([f])
-		listaHojas.append(hijo_izq)
-		listaHojas.append(hijo_der)
-	elif clasificacion=='2beta':
-		hijo_izq=[f.left]
-		hijo_der=[f.right]
-		listaHojas.remove([f])
-		listaHojas.append(hijo_izq)
-		listaHojas.append(hijo_der)
-	elif clasificacion=='3beta':
-		hijo_izq=[Tree('-', None, f.left)]
-		hijo_der=[f.right]
-		listaHojas.remove([f])
-		listaHojas.append(hijo_izq)
-		listaHojas.append(hijo_der)
+
+	print("Formula:", Inorder(f))
+	print("Hoja:", imprime_hoja(h))
+
+	assert(f in h), "La formula no esta en la lista!"
+
+	clase = clasifica(f)
+	print("Clasificada como:", clase)
+	assert(clase != None), "Formula incorrecta " + imprime_hoja(h)
+
+	if clase == '1alfa':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [f.right.right]
+		listaHojas.append(aux)
+	elif clase == '2alfa':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [f.right]
+		aux += [f.left]
+		listaHojas.append(aux)
+	elif clase == '3alfa':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [Tree('-',None,f.right)]
+		aux += [Tree('-',None,f.left)]
+		listaHojas.append(aux)
+	elif clase == '4alfa':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [Tree('-',None,f.right)]
+		aux += [f.left]
+		listaHojas.append(aux)
+	elif clase == '1beta':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [Tree('-',None,f.right)]
+		aux += [Tree('-',None,f.left)]
+		listaHojas.append(aux)
+	elif clase == '2beta':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [f.right]
+		aux += [f.left]
+		listaHojas.append(aux)
+	elif clase == '3beta':
+		aux = [x for x in h]
+		listaHojas.remove(h)
+		aux.remove(f)
+		aux += [Tree('-',None,f.right)]
+		aux += [f.left]
+		listaHojas.append(aux)
 
 
 def Tableaux(f):
